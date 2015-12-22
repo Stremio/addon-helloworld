@@ -3,11 +3,14 @@ var Stremio = require("stremio-addons");
 var manifest = { 
     "name": "Example Addon",
     "description": "Sample addon providing a few public domain movies",
-    "icon": "URL to 256x256 monochrome png icon", "background": "URL to 1366x756 png background",
+    "icon": "URL to 256x256 monochrome png icon", 
+    "background": "URL to 1366x756 png background",
     "id": "org.stremio.basic",
     "version": "1.0.0",
     "types": ["movie"],
-    "filter": { "infoHash": { "$exists": true }, "query.imdb_id": { "$exists": true }, "query.type": { "$in":["series","movie"] } }
+
+    // filter: when the client calls all add-ons, the order will depend on how many of those conditions are matched in the call arguments for every add-on
+    "filter": { "query.imdb_id": { "$exists": true }, "query.type": { "$in":["series","movie"] } }
 };
 
 var dataset = {
@@ -16,6 +19,7 @@ var dataset = {
     "tt0017136": { infoHash: "dca926c0328bb54d209d82dc8a2f391617b47d7a", mapIdx: 1, availability: 2 }, // metropolis, 1927
     "tt0051744": { infoHash: "9f86563ce2ed86bbfedd5d3e9f4e55aedd660960", availability: 2 }, // house on haunted hill 1959; if mapIdx is not passed, largest file is picked
     "tt1254207": { url: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", availability: 1 }, // big buck bunny, HTTP stream
+    "tt0031051": { yt_id: "gLKA7wxqtfM", availability: 2 } // The Arizona Kid, 1939; YouTube stream
 };
 
 var addon = new Stremio.Server({
