@@ -3,7 +3,7 @@ Step 1: init a npm project
 
 **Pre-requisites: Node.js, Git**
 
-This is the first, boilerplate step of creating an add-on for Stremio. Create a node.js project and add the (stremio-addons)[http://github.com/Stremio/stremio-addons] module as dependency.
+This is the first, boilerplate step of creating an add-on for Stremio. Create a node.js project and add the [stremio-addons](http://github.com/Stremio/stremio-addons) module as dependency.
 
 ```bash
 mkdir stremio-hello-world
@@ -118,3 +118,14 @@ var server = require("http").createServer(function (req, res) {
     console.log("Sample Stremio Addon listening on "+server.address().port);
 }).listen(process.env.PORT || 7000);
 ```
+
+As you can see, this is an add-on that allows Stremio to stream 6 public domain movies - in just 40 lines of code. 
+
+Depending on your source, you can implement streaming (stream.find) or catalogues (meta.find, meta.get) of ``movie``, ``series``, ``channel`` or ``tv`` content types.
+
+
+Step 5: load in Stremio, test streaming
+================================
+
+Step 6: implement metadata (Discover catalogue)
+==============================
