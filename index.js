@@ -26,13 +26,8 @@ var dataset = {
     "tt0031051": { yt_id: "gLKA7wxqtfM", availability: 2 } // The Arizona Kid, 1939; YouTube stream
 };
 
-var addon = new Stremio.Server({
-    "stream.find": function(args, callback, user) {
-        // only "availability" is required for stream.find, but we can return the whole object
-        if (! args.query) return callback();
-        callback(null, [dataset[args.query.imdb_id]]);
-    }
-}, { stremioget: true }, manifest);
+var methods = { };
+var addon = new Stremio.Server(methods, { stremioget: true }, manifest);
 
 var server = require("http").createServer(function (req, res) {
     addon.middleware(req, res, function() { res.end() }); // wire the middleware - also compatible with connect / express
@@ -40,3 +35,12 @@ var server = require("http").createServer(function (req, res) {
 {
     console.log("Sample Stremio Addon listening on "+server.address().port);
 }).listen(process.env.PORT || 7000);
+
+
+/* Methods
+ */
+methods["stream.find"] = function(args, callback, user) {
+    // only "availability" is required for stream.find, but we can return the whole object
+    if (! args.query) return callback();
+    callback(null, [dataset[args.query.imdb_id]]);
+}
