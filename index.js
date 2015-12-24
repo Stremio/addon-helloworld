@@ -38,7 +38,6 @@ var server = require("http").createServer(function (req, res) {
 
 // Streaming
 methods["stream.find"] = function(args, callback) {
-    // only "availability" is required for stream.find, but we can return the whole object
     if (! args.query) return callback();
     callback(null, [dataset[args.query.imdb_id]]);
 };
