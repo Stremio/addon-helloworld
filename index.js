@@ -5,7 +5,7 @@ var manifest = {
     "description": "Sample addon providing a few public domain movies",
     "icon": "URL to 256x256 monochrome png icon", 
     "background": "URL to 1366x756 png background",
-    "id": "org.stremio.basic",
+    "id": "org.stremio.helloworld",
     "version": "1.0.0",
     "types": ["movie"],
 
@@ -27,14 +27,10 @@ var dataset = {
 };
 
 var addon = new Stremio.Server({
-    "stream.get": function(args, callback, user) {
-        if (! args.query) return callback();
-        return callback(null, dataset[args.query.imdb_id] || null);
-    },
     "stream.find": function(args, callback, user) {
         // only "availability" is required for stream.find, but we can return the whole object
         if (! args.query) return callback();
-        callback(null, dataset[args.query.imdb_id] || null);
+        callback(null, [dataset[args.query.imdb_id]]);
     }
 }, { stremioget: true }, manifest);
 
