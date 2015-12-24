@@ -120,5 +120,13 @@ methods["meta.find"] = function(args, callback) {
 Step 6: result
 ===================
 
-![discover](screenshots/discover.png)
-![streaming from add-on](screenshots/streaming.png)
+![discover](screenshots/discover.png {width=400px})
+![streaming from add-on](screenshots/streaming.png {width=400px})
+
+**And in the open-source client**
+
+![streaming from add-on](screenshots/stremio-addons-client.png {width=400px})
+![discover](screenshots/stremio-addons-client-discover.png {width=400px})
+
+
+
