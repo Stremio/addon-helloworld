@@ -62,7 +62,7 @@ var server = require("http").createServer(function (req, res) {
 }).listen(process.env.PORT || 7000);
 ```
 
-This initializes a server for the add-on on port 7000. This is the server Stremio clients should connect to to use the add-on. 
+**This initializes a server for the add-on on port 7000. This is the server Stremio clients should connect to to use the add-on.**
 
 _Optional:_ Alternatively, if you're making an integration for a website / web app written in Node.js, you can embed the add-on in your server code by chaining it to the list of your connect/express middlewares with ``app.use(addon.middleware)``.
 
@@ -82,18 +82,18 @@ methods["stream.find"] = function(args, callback) {
 }
 ```
 
-As you can see, this is an add-on that allows Stremio to stream 6 public domain movies - in about 40 lines of code. 
+**As you can see, this is an add-on that allows Stremio to stream 6 public domain movies - in about 40 lines of code.**
 
 Depending on your source, you can implement streaming (stream.find) or catalogues (meta.find, meta.get) of ``movie``, ``series``, ``channel`` or ``tv`` content types.
 
-To load that add-on in the desktop Stremio, start it with ". --service=http://localhost:7000" command line.
+To load that add-on in the desktop Stremio, start it with ``. --service=http://localhost:7000`` command line.
 
 Step 5: implement metadata (Discover catalogue)
 ==============================
 
 We have 3 methods serving meta: ``meta.find`` handles loading the catalogue and metadata, ``meta.get`` which loads metadata for individual items, and ``meta.search`` which performs a full text search.
 
-For now, we have the simple goal of loading the movies we provide on the top of Discover.
+**For now, we have the simple goal of loading the movies we provide on the top of Discover.**
 
 Append to index.js:
 ```javascript
@@ -119,5 +119,6 @@ methods["meta.find"] = function(args, callback) {
 
 Step 6: result
 ===================
-!(discover)[screenshots/discover.png]
-!(streaming from add-on)[screenshots/streaming.png]
+
+![discover](screenshots/discover.png)
+![streaming from add-on](screenshots/streaming.png)
