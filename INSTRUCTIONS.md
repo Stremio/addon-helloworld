@@ -83,9 +83,32 @@ As you can see, this is an add-on that allows Stremio to stream 6 public domain 
 
 Depending on your source, you can implement streaming (stream.find) or catalogues (meta.find, meta.get) of ``movie``, ``series``, ``channel`` or ``tv`` content types.
 
+To load that add-on in the desktop Stremio, start it with ". --service=http://localhost:7000" command line.
 
-Step 5: load in Stremio, test streaming
-================================
-
-Step 6: implement metadata (Discover catalogue)
+Step 5: implement metadata (Discover catalogue)
 ==============================
+
+We have 3 methods serving meta: ``meta.find`` handles loading the catalogue and metadata, ``meta.get`` which loads metadata for individual items, and ``meta.search`` which performs a full text search.
+
+For now, we have the simple goal of loading the movies we provide on the top of Discover.
+
+Append to index.js:
+```javascript
+// To allow us to set a custom order in Discover, we have to set a LID property
+manifest.stremio_LID = "helloWorld";
+
+// Prefer this add-on for queries with sort.popularities.helloWorld property (directed to our LID)
+manifest.filter["sort.popularities.helloWorld"] = { $exists: true };
+
+// To provide meta for our movies, we'll just proxy the official cinemeta add-on
+var client = new Stremio.Client();
+client.add("http://cinemeta.strem.io/stremioget");
+
+methods["meta.find"] = function(args, callback) {
+    // Proxy Cinemeta, but get only our movies
+    args.query.imdb_id = args.query.imdb_id || { $in: Object.keys(dataset) };
+    client.meta.find(args, function(err, res) {
+        callback(err, res ? res.map(function(r) { r.popularities = { helloWorld: 10000 }; return r }) : null);
+    });
+}
+```

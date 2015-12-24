@@ -36,9 +36,7 @@ var server = require("http").createServer(function (req, res) {
     console.log("Sample Stremio Addon listening on "+server.address().port);
 }).listen(process.env.PORT || 7000);
 
-
-/* Methods
- */
+// Streaming
 methods["stream.find"] = function(args, callback) {
     // only "availability" is required for stream.find, but we can return the whole object
     if (! args.query) return callback();
@@ -47,6 +45,8 @@ methods["stream.find"] = function(args, callback) {
 
 // To allow us to set a custom order in Discover, we have to set a LID property
 manifest.stremio_LID = "helloWorld";
+
+// Prefer this add-on for queries with sort.popularities.helloWorld property (directed to our LID)
 manifest.filter["sort.popularities.helloWorld"] = { $exists: true };
 
 // To provide meta for our movies, we'll just proxy the official cinemeta add-on
