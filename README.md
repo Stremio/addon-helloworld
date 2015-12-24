@@ -123,7 +123,7 @@ Step 6: result
 ![discover](screenshots/discover.png)
 ![streaming from add-on](screenshots/streaming.png)
 
-**And in the open-source client**
+**And in the [open-source client](https://github.com/Stremio/stremio-addons-client/)**
 
 ![streaming from add-on](screenshots/stremio-addons-client.png)
 ![discover](screenshots/stremio-addons-client-discover.png)
