@@ -72,7 +72,7 @@ And then implement ``stream.find`` as follows:
 ```javascript
 /* Methods
  */
-methods["stream.find"] = function(args, callback, user) {
+methods["stream.find"] = function(args, callback) {
     // only "availability" is required for stream.find, but we can return the whole object
     if (! args.query) return callback();
     callback(null, [dataset[args.query.imdb_id]]);

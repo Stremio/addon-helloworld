@@ -39,8 +39,24 @@ var server = require("http").createServer(function (req, res) {
 
 /* Methods
  */
-methods["stream.find"] = function(args, callback, user) {
+methods["stream.find"] = function(args, callback) {
     // only "availability" is required for stream.find, but we can return the whole object
     if (! args.query) return callback();
     callback(null, [dataset[args.query.imdb_id]]);
+};
+
+// To allow us to set a custom order in Discover, we have to set a LID property
+manifest.stremio_LID = "helloWorld";
+manifest.filter["sort.popularities.helloWorld"] = { $exists: true };
+
+// To provide meta for our movies, we'll just proxy the official cinemeta add-on
+var client = new Stremio.Client();
+client.add("http://cinemeta.strem.io/stremioget");
+
+methods["meta.find"] = function(args, callback) {
+    // Proxy Cinemeta, but get only our movies
+    args.query.imdb_id = args.query.imdb_id || { $in: Object.keys(dataset) };
+    client.meta.find(args, function(err, res) {
+        callback(err, res ? res.map(function(r) { r.popularities = { helloWorld: 10000 }; return r }) : null);
+    });
 }
