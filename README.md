@@ -1,5 +1,5 @@
 # Hello world add-on for Stremio
-## Adds a few public domain movies to Stremio
+### Adds a few public domain movies to Stremio
 ## Basic tutorial on how to re-create this add-on step by step
 
 Step 1: init a npm project
