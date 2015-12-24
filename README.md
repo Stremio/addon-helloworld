@@ -115,3 +115,9 @@ methods["meta.find"] = function(args, callback) {
     });
 }
 ```
+
+
+Step 6: result
+===================
+!(discover)[screenshots/discover.png]
+!(streaming from add-on)[screenshots/streaming.png]
