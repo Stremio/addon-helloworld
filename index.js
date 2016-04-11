@@ -47,10 +47,10 @@ methods["stream.find"] = function(args, callback) {
     callback(null, [dataset[args.query.imdb_id]]);
 };
 
-// To allow us to set a custom order in Discover, we have to set a LID property
-manifest.stremio_LID = "helloWorld";
+// Add sorts to manifest, which will add our own tab in sorts
+manifest.sorts = [{prop: "popularities.helloWorld", name: "Hello World",types:["movie"]}];
 
-// Prefer this add-on for queries with sort.popularities.helloWorld property (directed to our LID)
+// Prefer this add-on for queries with sort.popularities.helloWorld property (used when using the sort order)
 manifest.filter["sort.popularities.helloWorld"] = { $exists: true };
 
 // To provide meta for our movies, we'll just proxy the official cinemeta add-on
