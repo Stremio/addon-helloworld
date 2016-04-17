@@ -1,4 +1,5 @@
 var Stremio = require("stremio-addons");
+var magnet = require("magnet-uri");
 
 var manifest = { 
     "name": "Example Addon",
@@ -19,12 +20,29 @@ var dataset = {
     "tt0032138": { infoHash: "24c8802e2624e17d46cd555f364debd949f2c81e", mapIdx: 0, availability: 2 }, // the wizard of oz 1939
     "tt0017136": { infoHash: "dca926c0328bb54d209d82dc8a2f391617b47d7a", mapIdx: 1, availability: 2 }, // metropolis, 1927
 
-    "tt0063350": { infoHash: "f17fb68ce756227fce325d0513157915f5634985" }, // night of the living dead, 1968
+    // night of the living dead, example from magnet
+    "tt0063350": fromMagnet("magnet:?xt=urn:btih:A7CFBB7840A8B67FD735AC73A373302D14A7CDC9&dn=night+of+the+living+dead+1968+remastered+bdrip+1080p+ita+eng+x265+nahom&tr=udp%3A%2F%2Ftracker.publicbt.com%2Fannounce&tr=udp%3A%2F%2Fglotorrents.pw%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"), // night of the living dead, 1968
     "tt0051744": { infoHash: "9f86563ce2ed86bbfedd5d3e9f4e55aedd660960" }, // house on haunted hill 1959
 
     "tt1254207": { url: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", availability: 1 }, // big buck bunny, HTTP stream
     "tt0031051": { yt_id: "gLKA7wxqtfM", availability: 2 } // The Arizona Kid, 1939; YouTube stream
 };
+
+// utility function to add from magnet
+function fromMagnet(uri) {
+    var parsed = magnet.decode(uri);
+    var infoHash = parsed.infoHash.toLowerCase();
+    var tags = [];
+    if (uri.match(/720p/i)) tags.push("720p");
+    if (uri.match(/1080p/i)) tags.push("1080p");
+    return {
+        infoHash: infoHash,
+        sources: (parsed.announce || []).map(function(x) { return "tracker:"+x }).concat(["dht:"+infoHash]),
+        tag: tags,
+        title: tags[0], // show quality in the UI
+        availability: 2, 
+    }
+}
 
 var methods = { };
 var addon = new Stremio.Server(methods, { stremioget: true }, manifest);
