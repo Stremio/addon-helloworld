@@ -25,7 +25,9 @@ var dataset = {
     "tt0051744": { infoHash: "9f86563ce2ed86bbfedd5d3e9f4e55aedd660960" }, // house on haunted hill 1959
 
     "tt1254207": { url: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", availability: 1 }, // big buck bunny, HTTP stream
-    "tt0031051": { yt_id: "gLKA7wxqtfM", availability: 2 } // The Arizona Kid, 1939; YouTube stream
+    "tt0031051": { yt_id: "gLKA7wxqtfM", availability: 2 }, // The Arizona Kid, 1939; YouTube stream
+
+    "tt0137523": { externalUrl: "https://www.netflix.com/watch/26004747" }, // Fight Club, 1999; redirect to Netflix
 };
 
 // utility function to add from magnet
@@ -75,8 +77,9 @@ manifest.filter["sort.popularities.helloWorld"] = { $exists: true };
 var client = new Stremio.Client();
 client.add("http://cinemeta.strem.io/stremioget");
 
+// Proxy Cinemeta, but get only our movies
+// That way we get a tab "Hello World" with the movies we provide :) 
 methods["meta.find"] = function(args, callback) {
-    // Proxy Cinemeta, but get only our movies
     args.query.imdb_id = args.query.imdb_id || { $in: Object.keys(dataset) };
     client.meta.find(args, function(err, res) {
         callback(err, res ? res.map(function(r) { r.popularities = { helloWorld: 10000 }; return r }) : null);
