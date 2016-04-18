@@ -64,7 +64,10 @@ if (module.parent) {
 // Streaming
 methods["stream.find"] = function(args, callback) {
     if (! args.query) return callback();
-    callback(null, [dataset[args.query.imdb_id]]);
+    //callback(null, [dataset[args.query.imdb_id]]); // Only for movies
+    
+    var key = [args.query.imdb_id, args.query.season, args.query.episode].filter(function(x) { return x }).join(" ");
+    callback(null, dataset[key]);
 };
 
 // Add sorts to manifest, which will add our own tab in sorts
