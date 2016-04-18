@@ -8,7 +8,7 @@ var manifest = {
     "background": "URL to 1366x756 png background",
     "id": "org.stremio.helloworld",
     "version": "1.0.0",
-    "types": ["movie"],
+    "types": ["movie", "series"],
 
     // filter: when the client calls all add-ons, the order will depend on how many of those conditions are matched in the call arguments for every add-on
     "filter": { "query.imdb_id": { "$exists": true }, "query.type": { "$in":["series","movie"] } }
@@ -28,6 +28,8 @@ var dataset = {
     "tt0031051": { yt_id: "gLKA7wxqtfM", availability: 2 }, // The Arizona Kid, 1939; YouTube stream
 
     "tt0137523": { externalUrl: "https://www.netflix.com/watch/26004747" }, // Fight Club, 1999; redirect to Netflix
+
+    "tt1748166 1 1": { infoHash: "07a9de9750158471c3302e4e95edb1107f980fa6" }, // Pioneer One
 };
 
 // utility function to add from magnet
@@ -67,11 +69,11 @@ methods["stream.find"] = function(args, callback) {
     //callback(null, [dataset[args.query.imdb_id]]); // Only for movies
     
     var key = [args.query.imdb_id, args.query.season, args.query.episode].filter(function(x) { return x }).join(" ");
-    callback(null, dataset[key]);
+    callback(null, [dataset[key]]);
 };
 
 // Add sorts to manifest, which will add our own tab in sorts
-manifest.sorts = [{prop: "popularities.helloWorld", name: "Hello World",types:["movie"]}];
+manifest.sorts = [{prop: "popularities.helloWorld", name: "Hello World",types:["movie","series"]}];
 
 // Prefer this add-on for queries with sort.popularities.helloWorld property (used when using the sort order)
 manifest.filter["sort.popularities.helloWorld"] = { $exists: true };
