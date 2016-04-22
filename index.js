@@ -85,8 +85,13 @@ client.add("http://cinemeta.strem.io/stremioget");
 // Proxy Cinemeta, but get only our movies
 // That way we get a tab "Hello World" with the movies we provide :) 
 methods["meta.find"] = function(args, callback) {
-    args.query.imdb_id = args.query.imdb_id || { $in: Object.keys(dataset).map(function(x) { return x.split(" ")[0] }) };
+    var ourImdbIds = Object.keys(dataset).map(function(x) { return x.split(" ")[0] });
+    args.query = args.query || { };
+    args.query.imdb_id = args.query.imdb_id || { $in: ourImdbIds };
     client.meta.find(args, function(err, res) {
-        callback(err, res ? res.map(function(r) { r.popularities = { helloWorld: 10000 }; return r }) : null);
+        callback(err, res ? res.map(function(r) { 
+            r.popularities = { helloWorld: 10000 }; // we sort by popularities.helloWorld, so we should have a value
+            return r;
+        }) : null);
     });
 }
