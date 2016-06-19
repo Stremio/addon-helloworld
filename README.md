@@ -86,7 +86,7 @@ methods["stream.find"] = function(args, callback) {
 
 Depending on your source, you can implement streaming (stream.find) or catalogues (meta.find, meta.get) of ``movie``, ``series``, ``channel`` or ``tv`` content types.
 
-To load that add-on in the desktop Stremio, start it with ``. --service=http://localhost:7000`` command line.
+To load that add-on in the desktop Stremio, start it with ``. --service=http://localhost:7000/stremioget/stremio/v1`` command line.
 
 Step 5: implement metadata (Discover catalogue)
 ==============================
