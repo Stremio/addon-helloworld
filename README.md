@@ -97,10 +97,11 @@ We have 3 methods serving meta: ``meta.find`` handles loading the catalogue and 
 
 Append to index.js:
 ```javascript
-// To allow us to set a custom order in Discover, we have to set a LID property
-manifest.stremio_LID = "helloWorld";
+// Add a "Hello World" tab in Discover by adding our own sort
+manifest.sorts = [{ prop: "popularities.helloWorld", name: "Hello World", types: ["movie"] }];
 
-// Prefer this add-on for queries with sort.popularities.helloWorld property (directed to our LID)
+// Makes Stremio pick this add-on for queries with sort.popularities.helloWorld property
+//  in simple words, when we click "Hello World" sort tab in Discover
 manifest.filter["sort.popularities.helloWorld"] = { $exists: true };
 
 // To provide meta for our movies, we'll just proxy the official cinemeta add-on
