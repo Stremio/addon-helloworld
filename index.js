@@ -2,7 +2,7 @@ var Stremio = require("stremio-addons");
 var magnet = require("magnet-uri");
 
 var manifest = { 
-    "name": "Example Addon",
+    "name": "Hello World Addon",
     "description": "Sample addon providing a few public domain movies",
     "icon": "URL to 256x256 monochrome png icon", 
     "background": "URL to 1366x756 png background",
