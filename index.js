@@ -18,8 +18,8 @@ var dataset = {
     // For p2p streams, you can provide availability property, from 0 to 3, to indicate stability of the stream; if not passed, 1 will be assumed
     // mapIdx is the index of the file within the torrent ; if not passed, the largest file will be selected
     "tt0032138": { infoHash: "24c8802e2624e17d46cd555f364debd949f2c81e", mapIdx: 0, availability: 2 }, // the wizard of oz 1939
-    //"tt0017136": { infoHash: "dca926c0328bb54d209d82dc8a2f391617b47d7a", mapIdx: 1, availability: 2 }, // metropolis, 1927
-    "tt0017136": { url: "ipfs://QmYbmoDHDNgqoDbLC4vMyoMH5dYQdrxL1wh63x9rhSC6Zf/avchd-metropolis.1927.1080p.mkv" }, // IPFS example - metropolis, 1927, restored 2010 
+    "tt0017136": { infoHash: "dca926c0328bb54d209d82dc8a2f391617b47d7a", mapIdx: 1, availability: 2 }, // metropolis, 1927
+    //"tt0017136": { url: "ipfs://QmYbmoDHDNgqoDbLC4vMyoMH5dYQdrxL1wh63x9rhSC6Zf/avchd-metropolis.1927.1080p.mkv" }, // IPFS example - metropolis, 1927, restored 2010 
     
     // night of the living dead, example from magnet
     "tt0063350": fromMagnet("magnet:?xt=urn:btih:A7CFBB7840A8B67FD735AC73A373302D14A7CDC9&dn=night+of+the+living+dead+1968+remastered+bdrip+1080p+ita+eng+x265+nahom&tr=udp%3A%2F%2Ftracker.publicbt.com%2Fannounce&tr=udp%3A%2F%2Fglotorrents.pw%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce"), // night of the living dead, 1968
