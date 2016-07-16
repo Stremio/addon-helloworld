@@ -81,7 +81,7 @@ manifest.filter["sort.popularities.helloWorld"] = { $exists: true };
 
 // To provide meta for our movies, we'll just proxy the official cinemeta add-on
 var client = new Stremio.Client();
-client.add("http://cinemeta.strem.io/stremioget");
+client.add("http://cinemeta.strem.io/stremioget/stremio/v1");
 
 // Proxy Cinemeta, but get only our movies
 // That way we get a tab "Hello World" with the movies we provide :) 
@@ -90,6 +90,7 @@ methods["meta.find"] = function(args, callback) {
     args.query = args.query || { };
     args.query.imdb_id = args.query.imdb_id || { $in: ourImdbIds };
     client.meta.find(args, function(err, res) {
+	if (err) console.error(err);
         callback(err, res ? res.map(function(r) { 
             r.popularities = { helloWorld: 10000 }; // we sort by popularities.helloWorld, so we should have a value
             return r;
