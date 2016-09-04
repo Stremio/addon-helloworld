@@ -24,6 +24,6 @@
   "homepage": "https://github.com/Ivshti/addon-helloworld",
   "dependencies": {
     "magnet-uri": "^5.1.3",
-    "stremio-addons": "2.x.x"
+    "stremio-addons": "^2.5.1"
   }
 }

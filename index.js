@@ -1,16 +1,21 @@
 var Stremio = require("stremio-addons");
 var magnet = require("magnet-uri");
 
+process.env.STREMIO_LOGGING = true; // enable server logging for development purposes
+
 var manifest = { 
+    "id": "org.stremio.helloworld",
+    "version": "1.0.0",
+
     "name": "Hello World Addon",
     "description": "Sample addon providing a few public domain movies",
     "icon": "URL to 256x256 monochrome png icon", 
     "background": "URL to 1366x756 png background",
-    "id": "org.stremio.helloworld",
-    "version": "1.0.0",
-    "types": ["movie", "series"],
 
-    // filter: when the client calls all add-ons, the order will depend on how many of those conditions are matched in the call arguments for every add-on
+    // Properties that determine when Stremio picks this add-on
+    "types": ["movie", "series"], // your add-on will be preferred for those content types
+    "idProperty": "imdb_id", // the property to use as an ID for your add-on; your add-on will be preferred for items with that property; can be an array
+    // We need this for pre-4.0 Stremio, it's the obsolete equivalent of types/idProperty
     "filter": { "query.imdb_id": { "$exists": true }, "query.type": { "$in":["series","movie"] } }
 };
 
@@ -50,7 +55,7 @@ function fromMagnet(uri) {
 }
 
 var methods = { };
-var addon = new Stremio.Server(methods, { stremioget: true }, manifest);
+var addon = new Stremio.Server(methods, manifest);
 
 if (module.parent) {
     module.exports = addon
@@ -67,7 +72,8 @@ if (module.parent) {
 // Streaming
 methods["stream.find"] = function(args, callback) {
     if (! args.query) return callback();
-    //callback(null, [dataset[args.query.imdb_id]]); // Only for movies
+
+    //callback(null, [dataset[args.query.imdb_id]]); // Works only for movies
     
     var key = [args.query.imdb_id, args.query.season, args.query.episode].filter(function(x) { return x }).join(" ");
     callback(null, [dataset[key]]);
@@ -75,9 +81,6 @@ methods["stream.find"] = function(args, callback) {
 
 // Add sorts to manifest, which will add our own tab in sorts
 manifest.sorts = [{prop: "popularities.helloWorld", name: "Hello World",types:["movie","series"]}];
-
-// Prefer this add-on for queries with sort.popularities.helloWorld property (used when using the sort order)
-manifest.filter["sort.popularities.helloWorld"] = { $exists: true };
 
 // To provide meta for our movies, we'll just proxy the official cinemeta add-on
 var client = new Stremio.Client();
