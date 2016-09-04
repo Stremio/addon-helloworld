@@ -135,7 +135,7 @@ methods["meta.find"] = function(args, callback) {
 Step 6: result
 ===================
 
-![discover](screenshots/discover.png)
+![discover](screenshots/discover1.png)
 ![streaming from add-on](screenshots/streaming.png)
 
 **And in the [open-source client](https://github.com/Stremio/stremio-addons-client/)**
