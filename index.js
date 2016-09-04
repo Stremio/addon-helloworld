@@ -31,7 +31,7 @@ var dataset = {
     "tt0051744": { infoHash: "9f86563ce2ed86bbfedd5d3e9f4e55aedd660960" }, // house on haunted hill 1959
 
     "tt1254207": { url: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", availability: 1 }, // big buck bunny, HTTP stream
-    "tt0031051": { yt_id: "gLKA7wxqtfM", availability: 2 }, // The Arizona Kid, 1939; YouTube stream
+    "tt0031051": { yt_id: "m3BKVSpP80s", availability: 2 }, // The Arizona Kid, 1939; YouTube stream
 
     "tt0137523": { externalUrl: "https://www.netflix.com/watch/26004747" }, // Fight Club, 1999; redirect to Netflix
 
