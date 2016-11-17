@@ -27,17 +27,31 @@ Create an index.js file:
 ```javascript
 var Stremio = require("stremio-addons");
 
+process.env.STREMIO_LOGGING = true; // enable server logging for development purposes
+
 var manifest = { 
+    // See https://github.com/Stremio/stremio-addons/blob/master/docs/api/manifest.md for full explanation
+    "id": "org.stremio.helloworld",
+    "version": "1.0.0",
+
     "name": "Example Addon",
     "description": "Sample addon providing a few public domain movies",
     "icon": "URL to 256x256 monochrome png icon", 
     "background": "URL to 1366x756 png background",
-    "id": "org.stremio.helloworld",
-    "version": "1.0.0",
-    "types": ["movie"],
 
-    // filter: when the client calls all add-ons, the order will depend on how many of those conditions are matched in the call arguments for every add-on
+    // Properties that determine when Stremio picks this add-on
+    "types": ["movie", "series"], // your add-on will be preferred for those content types
+    "idProperty": "imdb_id", // the property to use as an ID for your add-on; your add-on will be preferred for items with that property; can be an array
+    // We need this for pre-4.0 Stremio, it's the obsolete equivalent of types/idProperty
     "filter": { "query.imdb_id": { "$exists": true }, "query.type": { "$in":["series","movie"] } }
+};
+
+var dataset = {
+    // Some examples of streams we can serve back to Stremio ; see https://github.com/Stremio/stremio-addons/blob/master/docs/api/stream/stream.response.md
+    "tt0051744": { infoHash: "9f86563ce2ed86bbfedd5d3e9f4e55aedd660960" }, // house on haunted hill 1959
+    "tt1254207": { url: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", availability: 1 }, // big buck bunny, HTTP stream
+    "tt0031051": { yt_id: "m3BKVSpP80s", availability: 3 }, // The Arizona Kid, 1939; YouTube stream
+    "tt0137523": { externalUrl: "https://www.netflix.com/watch/26004747" }, // Fight Club, 1999; redirect to Netflix
 };
 ```
 
@@ -47,7 +61,7 @@ Step 3: init an add-on server
 Add to the end of your index.js:
 ```javascript
 var methods = { };
-var addon = new Stremio.Server(methods, { stremioget: true }, manifest);
+var addon = new Stremio.Server(methods, manifest);
 ```
 
 This creates an Add-on server object with our manifest and no methods. We can later define methods using the ``methods`` object we created.
@@ -64,7 +78,7 @@ var server = require("http").createServer(function (req, res) {
 
 **This initializes a server for the add-on on port 7000. This is the server Stremio clients should connect to to use the add-on.**
 
-_Optional:_ Alternatively, if you're making an integration for a website / web app written in Node.js, you can embed the add-on in your server code by chaining it to the list of your connect/express middlewares with ``app.use(addon.middleware)``.
+_Optional:_ Alternatively, if you're making an integration for a website / web app that uses Express/Connect you can embed the add-on in your server code as such: ``app.get('/my-stremio-addon', addon.middleware)``
 
 Step 4: basic streaming
 ==============================
@@ -84,9 +98,13 @@ methods["stream.find"] = function(args, callback) {
 
 **As you can see, this is an add-on that allows Stremio to stream 6 public domain movies - in about 40 lines of code.**
 
-Depending on your source, you can implement streaming (stream.find) or catalogues (meta.find, meta.get) of ``movie``, ``series``, ``channel`` or ``tv`` content types.
+Depending on your source, you can implement streaming (stream.find) or catalogues (``meta.find``, ``meta.get``) of ``movie``, ``series``, ``channel`` or ``tv`` content types.
 
-To load that add-on in the desktop Stremio, start it with ``. --service=http://localhost:7000/stremioget/stremio/v1`` command line.
+To load that add-on in the desktop Stremio, start it with ``start --addon=http://localhost:7000/stremioget/stremio/v1`` command line.
+
+Windows: ``%LOCALAPPDATA%\Programs\LNV\Stremio\Stremio.exe start --addon=http://localhost:7000/stremioget/stremio/v1``
+
+macOS: ``/Applications/Stremio.app/Contents/MacOS/Electron start --addon=http://localhost:7000/stremioget/stremio/v1``
 
 To load it in the web version, open ``http://alpha4.strem.io/?addon=http://localhost:7000/stremioget/stremio/v1`` in your browser.
 
@@ -102,13 +120,9 @@ Append to index.js:
 // Add a "Hello World" tab in Discover by adding our own sort
 manifest.sorts = [{ prop: "popularities.helloWorld", name: "Hello World", types: ["movie"] }];
 
-// Makes Stremio pick this add-on for queries with sort.popularities.helloWorld property
-//  in simple words, when we click "Hello World" sort tab in Discover
-manifest.filter["sort.popularities.helloWorld"] = { $exists: true };
-
 // To provide meta for our movies, we'll just proxy the official cinemeta add-on
 var client = new Stremio.Client();
-client.add("http://cinemeta.strem.io/stremioget");
+client.add("http://cinemeta.strem.io/stremioget/stremio/v1");
 
 methods["meta.find"] = function(args, callback) {
     // Proxy Cinemeta, but get only our movies
@@ -123,7 +137,7 @@ methods["meta.find"] = function(args, callback) {
 Step 6: result
 ===================
 
-![discover](screenshots/discover.png)
+![discover](screenshots/discover1.png)
 ![streaming from add-on](screenshots/streaming.png)
 
 **And in the [open-source client](https://github.com/Stremio/stremio-addons-client/)**
