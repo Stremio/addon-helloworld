@@ -88,6 +88,8 @@ Depending on your source, you can implement streaming (stream.find) or catalogue
 
 To load that add-on in the desktop Stremio, start it with ``. --service=http://localhost:7000/stremioget/stremio/v1`` command line.
 
+To load it in the web version, open ``http://alpha4.strem.io/?addon=http://localhost:7000/stremioget/stremio/v1`` in your browser.
+
 Step 5: implement metadata (Discover catalogue)
 ==============================
 
