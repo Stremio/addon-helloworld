@@ -1,5 +1,17 @@
 # Hello world add-on for Stremio
 ### Adds a few public domain movies to Stremio
+
+
+## Quick Start
+
+```bash
+npm install
+npm start
+```
+
+Then run Stremio, click the add-on button (puzzle piece icon) on the top right, and write `http://127.0.0.1:7000` in the "Addon Repository Url" field on the top left.
+
+
 ## Basic tutorial on how to re-create this add-on step by step
 
 Step 1: init a npm project
@@ -100,13 +112,7 @@ methods["stream.find"] = function(args, callback) {
 
 Depending on your source, you can implement streaming (stream.find) or catalogues (``meta.find``, ``meta.get``) of ``movie``, ``series``, ``channel`` or ``tv`` content types.
 
-To load that add-on in the desktop Stremio, start it with ``start --addon=http://localhost:7000/stremioget/stremio/v1`` command line.
-
-Windows: ``%LOCALAPPDATA%\Programs\LNV\Stremio\Stremio.exe start --addon=http://localhost:7000/stremioget/stremio/v1``
-
-macOS: ``/Applications/Stremio.app/Contents/MacOS/Electron start --addon=http://localhost:7000/stremioget/stremio/v1``
-
-To load it in the web version, open ``http://alpha4.strem.io/?addon=http://localhost:7000/stremioget/stremio/v1`` in your browser.
+To load that add-on in the desktop Stremio, click the add-on button (puzzle piece icon) on the top right, and write `http://127.0.0.1:7000` in the "Addon Repository Url" field on the top left.
 
 Step 5: implement metadata (Discover catalogue)
 ==============================
@@ -137,7 +143,9 @@ methods["meta.find"] = function(args, callback) {
 Step 6: result
 ===================
 
-![discover](screenshots/discover1.png)
+![addlink](screenshots/stremio-addons-add-link.png)
+![discover](screenshots/stremio-addons-discover.png)
+![board](screenshots/stremio-addons-board.png)
 ![streaming from add-on](screenshots/streaming.png)
 
 **And in the [open-source client](https://github.com/Stremio/stremio-addons-client/)**
