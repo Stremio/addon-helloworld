@@ -30,12 +30,14 @@ git add *
 git commit -a -m "initial commit"
 ```
 
+**NOTE:** to test this add-on, you need to complete Step 3 (init an add-on server). Start the add-on with `node index.js` and add the add-on to stremio by going to the *Addons* page (top right icon) and typing `http://localhost:7000` in the text field in the tp left and pressing enter. 
+
 Step 2: Create index.js, fill manifest
 ===========================
 
 In this step, we define the add-on name, description and purpose.
 
-Create an index.js file:
+Create an `index.js` file:
 ```javascript
 var Stremio = require("stremio-addons");
 
