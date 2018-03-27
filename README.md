@@ -150,7 +150,7 @@ Step 6: result
 ![board](screenshots/stremio-addons-board.png)
 ![streaming from add-on](screenshots/streaming.png)
 
-**And in the [open-source client](https://github.com/Stremio/stremio-addons-client/)**
+**And in the [open-source client](https://github.com/Stremio/stremio-client-demo/)**
 
 ![streaming from add-on](screenshots/stremio-addons-client.png)
 ![discover](screenshots/stremio-addons-client-discover.png)
