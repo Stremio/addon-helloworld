@@ -41,9 +41,9 @@ var manifest = {
 
 var dataset = {
     // For p2p streams, you can provide availability property, from 0 to 3, to indicate stability of the stream; if not passed, 1 will be assumed
-    // mapIdx is the index of the file within the torrent ; if not passed, the largest file will be selected
-    "tt0032138": { name: "The Wizard of Oz", infoHash: "24c8802e2624e17d46cd555f364debd949f2c81e", mapIdx: 0, availability: 2 },
-    "tt0017136": { name: "Metropolis", infoHash: "dca926c0328bb54d209d82dc8a2f391617b47d7a", mapIdx: 1, availability: 2 },
+    // fileIdx is the index of the file within the torrent ; if not passed, the largest file will be selected
+    "tt0032138": { name: "The Wizard of Oz", infoHash: "24c8802e2624e17d46cd555f364debd949f2c81e", fileIdx: 0, availability: 2 },
+    "tt0017136": { name: "Metropolis", infoHash: "dca926c0328bb54d209d82dc8a2f391617b47d7a", fileIdx: 1, availability: 2 },
     //"tt0017136": { url: "ipfs://QmYbmoDHDNgqoDbLC4vMyoMH5dYQdrxL1wh63x9rhSC6Zf/avchd-metropolis.1927.1080p.mkv" }, // IPFS example - metropolis, 1927, restored 2010 
     
     // night of the living dead, example from magnet
