@@ -191,6 +191,8 @@ Append to index.js:
 addon.runHTTPWithOptions({ port: 7000 })
 ```
 
+Run the add-on with `npm start` and add `http://127.0.0.1:7000/manifest.json` as the Repository URL in Stremio.
+
 Step 7: result
 ===================
 
@@ -198,8 +200,3 @@ Step 7: result
 ![discover](screenshots/stremio-addons-discover.png)
 ![board](screenshots/stremio-addons-board.png)
 ![streaming from add-on](screenshots/streaming.png)
-
-**And in the [open-source client](https://github.com/Stremio/stremio-client-demo/)**
-
-![streaming from add-on](screenshots/stremio-addons-client.png)
-![discover](screenshots/stremio-addons-client-discover.png)
