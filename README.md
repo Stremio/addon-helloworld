@@ -196,7 +196,7 @@ Run the add-on with `npm start` and add `http://127.0.0.1:7000/manifest.json` as
 Step 7: result
 ===================
 
-![addlink](screenshots/stremio-addons-add-link.png)
+![addlink](https://user-images.githubusercontent.com/1777923/43146711-65a33ccc-8f6a-11e8-978e-4c69640e63e3.png)
 ![discover](screenshots/stremio-addons-discover.png)
 ![board](screenshots/stremio-addons-board.png)
 ![streaming from add-on](screenshots/streaming.png)
