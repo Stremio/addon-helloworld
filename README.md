@@ -9,7 +9,7 @@ npm install
 npm start
 ```
 
-Then run Stremio, click the add-on button (puzzle piece icon) on the top right, and write `http://127.0.0.1:7000` in the "Addon Repository Url" field on the top left.
+Then run Stremio, click the add-on button (puzzle piece icon) on the top right, and write `http://127.0.0.1:7000/manifest.json` in the "Addon Repository Url" field on the top left.
 
 
 ## Basic tutorial on how to re-create this add-on step by step
