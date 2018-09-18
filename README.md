@@ -95,11 +95,11 @@ To implement basic streaming, we will set-up a dummy dataset with a few public d
 ```javascript
 var dataset = {
     // Some examples of streams we can serve back to Stremio ; see https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/responses/stream.md
-    "tt0051744": { name: "House on Haunted Hill", infoHash: "9f86563ce2ed86bbfedd5d3e9f4e55aedd660960" }, // torrent
-    "tt1254207": { name: "Big Buck Bunny", url: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", availability: 1 }, // HTTP stream
-    "tt0031051": { name: "The Arizone Kid", yt_id: "m3BKVSpP80s", availability: 3 }, // YouTube stream
-    "tt0137523": { name: "Fight Club", externalUrl: "https://www.netflix.com/watch/26004747" }, // redirects to Netflix
-    "tt1748166:1:1": { name: "Pioneer One", infoHash: "07a9de9750158471c3302e4e95edb1107f980fa6" }, // torrent for season 1, episode 1
+    "tt0051744": { name: "House on Haunted Hill", type: "movie", infoHash: "9f86563ce2ed86bbfedd5d3e9f4e55aedd660960" }, // torrent
+    "tt1254207": { name: "Big Buck Bunny", type: "movie", url: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" }, // HTTP stream
+    "tt0031051": { name: "The Arizone Kid", type: "movie", ytId: "m3BKVSpP80s" }, // YouTube stream
+    "tt0137523": { name: "Fight Club", type: "movie", externalUrl: "https://www.netflix.com/watch/26004747" }, // redirects to Netflix
+    "tt1748166:1:1": { name: "Pioneer One", type: "series", infoHash: "07a9de9750158471c3302e4e95edb1107f980fa6" }, // torrent for season 1, episode 1
 };
 ```
 
@@ -112,11 +112,7 @@ addon.defineStreamHandler(function(args, cb) {
         return cb(null, { streams: [] })
 
     if (dataset[args.id]) {
-        // remove "name" attribute of streams response
-        // "name" can be used to customize the name of the stream
-        // but in this case, we just want the addon name to show
-        var streams = [dataset[args.id]].map(function(x) { delete x.name; return x })
-        cb(null, { streams: streams });
+        cb(null, { streams: [dataset[args.id]] });
     } else
         cb(null, null)
 
@@ -143,12 +139,6 @@ We have 2 methods serving meta:
 Append to index.js:
 
 ```javascript
-// determine media type by index
-var typeFromId = function(index) {
-    // object keys that include ":" are series, for example:
-    // "tt1748166:1:1" refers to season 1, episode 1 of the "tt1748166" imdb id
-    return index.includes(':') ? 'series' : 'movie'
-}
 
 var METAHUB_URL = 'https://images.metahub.space'
 
@@ -158,7 +148,7 @@ var basicMeta = function(data, index) {
     var imdbId = index.split(':')[0]
     return {
         id: imdbId,
-        type: typeFromId(index),
+        type: data.type,
         name: data.name,
         poster: METAHUB_URL+'/poster/medium/'+imdbId+'/img',
     }
@@ -171,7 +161,7 @@ addon.defineCatalogHandler(function(args, cb) {
     // iterate dataset object and only add movies or series
     // depending on the requested type
     for (var key in dataset) {
-        if (args.type == typeFromId(key)) {
+        if (args.type == dataset[key].type) {
             metas.push(basicMeta(dataset[key], key))
         }
     }
