@@ -2,8 +2,6 @@
 var addonSDK = require("stremio-addon-sdk");
 var magnet = require("magnet-uri");
 
-process.env.STREMIO_LOGGING = true; // enable server logging for development purposes
-
 var manifest = { 
     "id": "org.stremio.helloworld",
     "version": "1.0.0",

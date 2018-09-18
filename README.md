@@ -41,8 +41,6 @@ Create an `index.js` file:
 ```javascript
 var addonSDK = require("stremio-addon-sdk");
 
-process.env.STREMIO_LOGGING = true; // enable server logging for development purposes
-
 var manifest = {
     "id": "org.stremio.helloworld",
     "version": "1.0.0",
