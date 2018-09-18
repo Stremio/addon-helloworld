@@ -1,6 +1,10 @@
 # Hello world add-on for Stremio
 ### Adds a few public domain movies to Stremio
 
+This example shows how to make a Stremio Add-on with Stremio's [Add-on SDK](https://github.com/Stremio/stremio-addon-sdk).
+
+Alternatively, you can also see how to make a Stremio Add-on with the [Express](https://www.npmjs.com/package/express) NPM module at [Stremio Express Add-on Hello World](https://github.com/Stremio/addon-helloworld-express).
+
 
 ## Quick Start
 
