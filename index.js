@@ -81,11 +81,7 @@ addon.defineStreamHandler(function(args, cb) {
         return cb(null, { streams: [] })
 
     if (dataset[args.id]) {
-        // remove "name" attribute of streams response
-        // "name" can be used to customize the name of the stream
-        // but in this case, we just want the addon name to show
-        var streams = [dataset[args.id]].map(function(x) { delete x.name; return x })
-        cb(null, { streams: streams });
+        cb(null, { streams: [dataset[args.id]] });
     } else
         cb(null, null)
 
