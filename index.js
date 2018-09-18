@@ -50,7 +50,7 @@ var dataset = {
     "tt0051744": { name: "House on Haunted Hill", infoHash: "9f86563ce2ed86bbfedd5d3e9f4e55aedd660960" },
 
     "tt1254207": { name: "Big Buck Bunny", url: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", availability: 1 }, // HTTP stream
-    "tt0031051": { name: "The Arizona Kid", yt_id: "m3BKVSpP80s", availability: 2 }, // YouTube stream
+    "tt0031051": { name: "The Arizona Kid", ytId: "m3BKVSpP80s", availability: 2 }, // YouTube stream
 
     "tt0137523": { name: "Fight Club", externalUrl: "https://www.netflix.com/watch/26004747" }, // redirects to Netflix
 
