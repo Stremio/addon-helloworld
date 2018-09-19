@@ -1,6 +1,10 @@
 # Hello world add-on for Stremio
 ### Adds a few public domain movies to Stremio
 
+This example shows how to make a Stremio Add-on with Stremio's [Add-on SDK](https://github.com/Stremio/stremio-addon-sdk).
+
+Alternatively, you can also see how to make a Stremio Add-on with the [Express](https://www.npmjs.com/package/express) NPM module at [Stremio Express Add-on Hello World](https://github.com/Stremio/addon-helloworld-express).
+
 
 ## Quick Start
 
@@ -9,7 +13,7 @@ npm install
 npm start
 ```
 
-Then run Stremio, click the add-on button (puzzle piece icon) on the top right, and write `http://127.0.0.1:7000` in the "Addon Repository Url" field on the top left.
+Then run Stremio, click the add-on button (puzzle piece icon) on the top right, and write `http://127.0.0.1:7000/manifest.json` in the "Addon Repository Url" field on the top left.
 
 
 ## Basic tutorial on how to re-create this add-on step by step
@@ -30,7 +34,7 @@ git add *
 git commit -a -m "initial commit"
 ```
 
-**NOTE:** to test this add-on, you need to complete Step 3 (init an add-on server). Start the add-on with `node index.js` and add the add-on to stremio by going to the *Addons* page (top right icon) and typing `http://localhost:7000` in the text field in the top left and pressing enter. 
+**NOTE:** to test this add-on, you need to complete Step 3 (init an add-on server). Start the add-on with `node index.js` and add the add-on to stremio by going to the *Addons* page (top right icon) and typing `http://127.0.0.1:7000/manifest.json` in the text field in the top left and pressing enter. 
 
 Step 2: Create index.js, fill manifest
 ===========================
@@ -41,8 +45,6 @@ Create an `index.js` file:
 ```javascript
 var addonSDK = require("stremio-addon-sdk");
 
-process.env.STREMIO_LOGGING = true; // enable server logging for development purposes
-
 var manifest = {
     "id": "org.stremio.helloworld",
     "version": "1.0.0",
@@ -50,8 +52,8 @@ var manifest = {
     "name": "Hello World Addon",
     "description": "Sample addon providing a few public domain movies",
 
-    "icon": "URL to 256x256 monochrome png icon", 
-    "background": "URL to 1366x756 png background",
+//    "icon": "URL to 256x256 monochrome png icon", 
+//    "background": "URL to 1024x786 png/jpg background",
 
     // set what type of resources we will return
     "resources": [
@@ -123,7 +125,7 @@ addon.defineStreamHandler(function(args, cb) {
 
 Depending on your source, you can implement streaming (`defineStreamHandler`) or catalogs (`defineCatalogHandler`) of ``movie``, ``series``, ``channel`` or ``tv`` content types.
 
-To load that add-on in the desktop Stremio, click the add-on button (puzzle piece icon) on the top right, and write `http://127.0.0.1:7000` in the "Addon Repository Url" field on the top left.
+To load that add-on in the desktop Stremio, click the add-on button (puzzle piece icon) on the top right, and write `http://127.0.0.1:7000/manifest.json` in the "Addon Repository Url" field on the top left.
 
 Step 5: implement catalog
 ==============================
@@ -182,6 +184,24 @@ addon.runHTTPWithOptions({ port: 7000 })
 ```
 
 Run the add-on with `npm start` and add `http://127.0.0.1:7000/manifest.json` as the Repository URL in Stremio.
+
+Optionally, you can also make this add-on available online, while still hosting it locally, by using [localtunnel](https://www.npmjs.com/package/localtunnel).
+
+To use `localtunnel` with this example, simply do:
+
+```bash
+npm install -g localtunnel
+lt --port 7000
+```
+
+This will typically bring a response such as:
+
+```
+your url is: https://perfect-bird-96.localtunnel.me
+```
+
+In which case you should use `https://perfect-bird-96.localtunnel.me/manifest.json` as your Add-on Repository URL
+
 
 Step 7: result
 ===================
