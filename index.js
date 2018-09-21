@@ -9,9 +9,6 @@ var manifest = {
     "name": "Hello World Addon",
     "description": "Sample addon providing a few public domain movies",
 
-//    "icon": "URL to 256x256 monochrome png icon", 
-//    "background": "URL to 1024x786 png/jpg background",
-
     // set what type of resources we will return
     "resources": [
         "catalog",
