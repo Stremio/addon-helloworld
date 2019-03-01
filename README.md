@@ -43,7 +43,7 @@ In this step, we define the add-on name, description and purpose.
 
 Create an `index.js` file:
 ```javascript
-var addonSDK = require("stremio-addon-sdk");
+var { addonBuilder, serveHTTP, publishToCentral } = require("stremio-addon-sdk");
 
 var manifest = {
     "id": "org.stremio.helloworld",
@@ -86,7 +86,7 @@ Step 3: init an add-on server
 
 Add to the end of your index.js:
 ```javascript
-var addon = new addonSDK(manifest);
+var addon = new addonBuilder(manifest);
 ```
 
 Step 4: basic streaming
@@ -113,7 +113,7 @@ addon.defineStreamHandler(function(args) {
     if (dataset[args.id]) {
         return Promise.resolve({ streams: [dataset[args.id]] });
     } else {
-        return Promise.resolve({ streams: [] })
+        return Promise.resolve({ streams: [] });
     }
 })
 ```
@@ -144,12 +144,12 @@ var METAHUB_URL = 'https://images.metahub.space'
 var basicMeta = function(data, index) {
     // To provide basic meta for our movies for the catalog
     // we'll fetch the poster from Stremio's MetaHub
-    var imdbId = index.split(':')[0]
+    var imdbId = index.split(":")[0]
     return {
         id: imdbId,
         type: data.type,
         name: data.name,
-        poster: METAHUB_URL+'/poster/medium/'+imdbId+'/img',
+        poster: METAHUB_URL+"/poster/medium/"+imdbId+"/img",
     }
 }
 
@@ -165,7 +165,7 @@ addon.defineCatalogHandler(function(args, cb) {
         }
     }
 
-    cb(null, { metas: metas })
+    return Promise.resolve({ metas: metas })
 
 })
 ```
@@ -177,7 +177,7 @@ It's time to run our add-on!
 
 Append to index.js:
 ```javascript
-addon.runHTTPWithOptions({ port: 7000 })
+serveHTTP(addon.getInterface(), { port: 7000 })
 ```
 
 Run the add-on with `npm start` and add `http://127.0.0.1:7000/manifest.json` as the Repository URL in Stremio.
@@ -197,7 +197,7 @@ This will typically bring a response such as:
 your url is: https://perfect-bird-96.localtunnel.me
 ```
 
-In which case you should use `https://perfect-bird-96.localtunnel.me/manifest.json` as your Add-on Repository URL
+In which case you should use `https://perfect-bird-96.localtunnel.me/manifest.json` as your Add-on URL
 
 
 Step 7: result

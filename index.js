@@ -1,5 +1,4 @@
-
-var addonSDK = require("stremio-addon-sdk");
+var { addonBuilder, serveHTTP, publishToCentral } = require("stremio-addon-sdk");
 var magnet = require("magnet-uri");
 
 var manifest = { 
@@ -68,28 +67,28 @@ function fromMagnet(name, type, uri) {
     }
 }
 
-var addon = new addonSDK(manifest);
+var addon = new addonBuilder(manifest);
 
 // Streams handler
 addon.defineStreamHandler(function(args) {
     if (dataset[args.id]) {
         return Promise.resolve({ streams: [dataset[args.id]] });
     } else {
-        return Promise.resolve({ streams: [] })
+        return Promise.resolve({ streams: [] });
     }
 })
 
-var METAHUB_URL = 'https://images.metahub.space'
+var METAHUB_URL = "https://images.metahub.space"
 
 var basicMeta = function(data, index) {
     // To provide basic meta for our movies for the catalog
     // we'll fetch the poster from Stremio's MetaHub
-    var imdbId = index.split(':')[0]
+    var imdbId = index.split(":")[0]
     return {
         id: imdbId,
         type: data.type,
         name: data.name,
-        poster: METAHUB_URL+'/poster/medium/'+imdbId+'/img',
+        poster: METAHUB_URL+"/poster/medium/"+imdbId+"/img",
     }
 }
 
@@ -105,12 +104,11 @@ addon.defineCatalogHandler(function(args, cb) {
         }
     }
 
-    cb(null, { metas: metas })
-
+    return Promise.resolve({ metas: metas })
 })
 
 if (module.parent) {
     module.exports = addon
 } else {
-    addon.runHTTPWithOptions({ port: 7000 })
+    serveHTTP(addon.getInterface(), { port: 7000 })
 }
