@@ -70,17 +70,13 @@ function fromMagnet(name, type, uri) {
 
 var addon = new addonSDK(manifest);
 
-// Streaming
-addon.defineStreamHandler(function(args, cb) {
-
-    if (! args.id)
-        return cb(null, { streams: [] })
-
+// Streams handler
+addon.defineStreamHandler(function(args) {
     if (dataset[args.id]) {
-        cb(null, { streams: [dataset[args.id]] });
-    } else
-        cb(null, null)
-
+        return Promise.resolve({ streams: [dataset[args.id]] });
+    } else {
+        return Promise.resolve({ streams: [] })
+    }
 })
 
 var METAHUB_URL = 'https://images.metahub.space'

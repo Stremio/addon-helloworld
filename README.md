@@ -13,7 +13,7 @@ npm install
 npm start
 ```
 
-Then run Stremio, click the add-on button (puzzle piece icon) on the top right, and write `http://127.0.0.1:7000/manifest.json` in the "Addon Repository Url" field on the top left.
+Then run Stremio, click the add-on button (puzzle piece icon) on the top right, and write `http://127.0.0.1:7000/manifest.json` in the "Addon Url" field on the top left.
 
 
 ## Basic tutorial on how to re-create this add-on step by step
@@ -29,7 +29,7 @@ This is the first, boilerplate step of creating an add-on for Stremio. Create a 
 mkdir stremio-hello-world
 cd stremio-hello-world
 npm init
-npm install stremio-addons --save
+npm install --save stremio-addon-sdk@1.0.x
 git add *
 git commit -a -m "initial commit"
 ```
@@ -108,16 +108,13 @@ var dataset = {
 And then implement ``defineStreamHandler`` as follows:
 
 ```javascript
-addon.defineStreamHandler(function(args, cb) {
-
-    if (! args.id)
-        return cb(null, { streams: [] })
-
+// Streams handler
+addon.defineStreamHandler(function(args) {
     if (dataset[args.id]) {
-        cb(null, { streams: [dataset[args.id]] });
-    } else
-        cb(null, null)
-
+        return Promise.resolve({ streams: [dataset[args.id]] });
+    } else {
+        return Promise.resolve({ streams: [] })
+    }
 })
 ```
 
