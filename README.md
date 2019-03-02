@@ -1,4 +1,5 @@
 # Hello world add-on for Stremio
+
 ### Adds a few public domain movies to Stremio
 
 This example shows how to make a Stremio Add-on with Stremio's [Add-on SDK](https://github.com/Stremio/stremio-addon-sdk).
@@ -183,22 +184,7 @@ serveHTTP(addonInterface, { port: 7000 });
 
 Run the add-on with `npm start` and add `http://127.0.0.1:7000/manifest.json` as the Repository URL in Stremio.
 
-Optionally, you can also make this add-on available online, while still hosting it locally, by using [localtunnel](https://www.npmjs.com/package/localtunnel).
-
-To use `localtunnel` with this example, simply do:
-
-```bash
-npm install -g localtunnel
-lt --port 7000
-```
-
-This will typically bring a response such as:
-
-```
-your url is: https://perfect-bird-96.localtunnel.me
-```
-
-In which case you should use `https://perfect-bird-96.localtunnel.me/manifest.json` as your Add-on URL
+Now, if you want to deploy your add-on and make it accessible publically, proceed to [our deployment guide](https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/deploying.md).
 
 
 Step 7: result
