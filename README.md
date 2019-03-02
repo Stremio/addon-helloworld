@@ -141,9 +141,10 @@ Append to addon.js:
 ```javascript
 const METAHUB_URL = "https://images.metahub.space"
 
-const basicMeta = function(value, key) {
+const generateMetaPreview = function(value, key) {
     // To provide basic meta for our movies for the catalog
     // we'll fetch the poster from Stremio's MetaHub
+    // see https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/responses/meta.md#meta-preview-object
     const imdbId = key.split(":")[0]
     return {
         id: imdbId,
@@ -157,7 +158,7 @@ addon.defineCatalogHandler(function(args, cb) {
     // filter the dataset object and only take the requested type
     const metas = Object.entries(dataset)
         .filter(([_, value]) => value.type === args.type)
-        .map(([key, value]) => basicMeta(value, key))
+        .map(([key, value]) => generateMetaPreview(value, key))
 
     return Promise.resolve({ metas: metas })
 })
