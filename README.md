@@ -74,7 +74,7 @@ const manifest = {
             type: 'series',
             id: 'helloworldseries'
         }
-    ]
+    ],
 
     // prefix of item IDs (ie: "tt0032138")
     "idPrefixes": [ "tt" ]
