@@ -1,7 +1,7 @@
-var { addonBuilder, serveHTTP, publishToCentral } = require("stremio-addon-sdk");
-var magnet = require("magnet-uri");
+const { addonBuilder } = require("stremio-addon-sdk");
+const magnet = require("magnet-uri");
 
-var manifest = { 
+const manifest = { 
     "id": "org.stremio.helloworld",
     "version": "1.0.0",
 
@@ -33,7 +33,7 @@ var manifest = {
 
 };
 
-var dataset = {
+const dataset = {
     // fileIdx is the index of the file within the torrent ; if not passed, the largest file will be selected
     "tt0032138": { name: "The Wizard of Oz", type: "movie", infoHash: "24c8802e2624e17d46cd555f364debd949f2c81e", fileIdx: 0 },
     "tt0017136": { name: "Metropolis", type: "movie", infoHash: "dca926c0328bb54d209d82dc8a2f391617b47d7a", fileIdx: 1 },
@@ -52,9 +52,9 @@ var dataset = {
 
 // utility function to add from magnet
 function fromMagnet(name, type, uri) {
-    var parsed = magnet.decode(uri);
-    var infoHash = parsed.infoHash.toLowerCase();
-    var tags = [];
+    const parsed = magnet.decode(uri);
+    const infoHash = parsed.infoHash.toLowerCase();
+    const tags = [];
     if (uri.match(/720p/i)) tags.push("720p");
     if (uri.match(/1080p/i)) tags.push("1080p");
     return {
@@ -67,7 +67,7 @@ function fromMagnet(name, type, uri) {
     }
 }
 
-var addon = new addonBuilder(manifest);
+const addon = new addonBuilder(manifest);
 
 // Streams handler
 addon.defineStreamHandler(function(args) {
@@ -78,31 +78,25 @@ addon.defineStreamHandler(function(args) {
     }
 })
 
-var METAHUB_URL = "https://images.metahub.space"
+const METAHUB_URL = "https://images.metahub.space"
 
-var basicMeta = function(data, index) {
+const basicMeta = function(value, key) {
     // To provide basic meta for our movies for the catalog
     // we'll fetch the poster from Stremio's MetaHub
-    var imdbId = index.split(":")[0]
+    const imdbId = key.split(":")[0]
     return {
         id: imdbId,
-        type: data.type,
-        name: data.name,
+        type: value.type,
+        name: value.name,
         poster: METAHUB_URL+"/poster/medium/"+imdbId+"/img",
     }
 }
 
 addon.defineCatalogHandler(function(args, cb) {
-
-    var metas = []
-
-    // iterate dataset object and only add movies or series
-    // depending on the requested type
-    for (var key in dataset) {
-        if (args.type == dataset[key].type) {
-            metas.push(basicMeta(dataset[key], key))
-        }
-    }
+    // filter the dataset object and only take the requested type
+    const metas = Object.entries(dataset)
+	.filter(([_, value]) => value.type === args.type)
+	.map(([key, value]) => basicMeta(value, key))
 
     return Promise.resolve({ metas: metas })
 })
