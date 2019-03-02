@@ -107,8 +107,4 @@ addon.defineCatalogHandler(function(args, cb) {
     return Promise.resolve({ metas: metas })
 })
 
-if (module.parent) {
-    module.exports = addon
-} else {
-    serveHTTP(addon.getInterface(), { port: 7000 })
-}
+module.exports = addon.getInterface()

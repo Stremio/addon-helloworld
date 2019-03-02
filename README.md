@@ -34,16 +34,16 @@ git add *
 git commit -a -m "initial commit"
 ```
 
-**NOTE:** to test this add-on, you need to complete Step 3 (init an add-on server). Start the add-on with `node index.js` and add the add-on to stremio by going to the *Addons* page (top right icon) and typing `http://127.0.0.1:7000/manifest.json` in the text field in the top left and pressing enter. 
+**NOTE:** to test this add-on, you need to complete Step 6. Start the add-on with `node server.js` and add the add-on to stremio by going to the *Addons* page (top right icon) and typing `http://127.0.0.1:7000/manifest.json` in the text field in the top left and pressing enter.
 
-Step 2: Create index.js, fill manifest
+Step 2: Create addon.js, fill manifest
 ===========================
 
 In this step, we define the add-on name, description and purpose.
 
-Create an `index.js` file:
+Create an `addon.js` file:
 ```javascript
-var { addonBuilder, serveHTTP, publishToCentral } = require("stremio-addon-sdk");
+var { addonBuilder } = require("stremio-addon-sdk");
 
 var manifest = {
     "id": "org.stremio.helloworld",
@@ -84,7 +84,7 @@ var manifest = {
 Step 3: init an add-on server
 ============================
 
-Add to the end of your index.js:
+Add to the end of your addon.js:
 ```javascript
 var addon = new addonBuilder(manifest);
 ```
@@ -135,7 +135,7 @@ We have 2 methods serving meta:
 
 **For now, we have the simple goal of loading the movies we provide on the top of Discover.**
 
-Append to index.js:
+Append to addon.js:
 
 ```javascript
 
@@ -170,14 +170,23 @@ addon.defineCatalogHandler(function(args) {
 })
 ```
 
-Step 6: run addon
+Step 6: putting everything together
 ===================
 
 It's time to run our add-on!
 
-Append to index.js:
+Append to addon.js:
 ```javascript
-serveHTTP(addon.getInterface(), { port: 7000 })
+module.exports = addon.getInterface()
+```
+
+And now create a new file, server.js, that only contains:
+
+```javascript
+const { serveHTTP } = require("stremio-addon-sdk");
+
+const addonInterface = require("./addon");
+serveHTTP(addonInterface, { port: 7000 });
 ```
 
 Run the add-on with `npm start` and add `http://127.0.0.1:7000/manifest.json` as the Repository URL in Stremio.
