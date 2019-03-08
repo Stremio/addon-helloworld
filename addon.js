@@ -67,10 +67,10 @@ function fromMagnet(name, type, uri) {
     }
 }
 
-const addon = new addonBuilder(manifest);
+const builder = new addonBuilder(manifest);
 
 // Streams handler
-addon.defineStreamHandler(function(args) {
+builder.defineStreamHandler(function(args) {
     if (dataset[args.id]) {
         return Promise.resolve({ streams: [dataset[args.id]] });
     } else {
@@ -93,7 +93,7 @@ const generateMetaPreview = function(value, key) {
     }
 }
 
-addon.defineCatalogHandler(function(args, cb) {
+builder.defineCatalogHandler(function(args, cb) {
     // filter the dataset object and only take the requested type
     const metas = Object.entries(dataset)
 	.filter(([_, value]) => value.type === args.type)
@@ -102,4 +102,4 @@ addon.defineCatalogHandler(function(args, cb) {
     return Promise.resolve({ metas: metas })
 })
 
-module.exports = addon.getInterface()
+module.exports = builder.getInterface()

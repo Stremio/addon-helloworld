@@ -85,9 +85,9 @@ const manifest = {
 Step 3: init an add-on server
 ============================
 
-Add to the end of your addon.js:
+Add to your addon.js:
 ```javascript
-const addon = new addonBuilder(manifest);
+const builder = new addonBuilder(manifest);
 ```
 
 Step 4: basic streaming
@@ -110,7 +110,7 @@ And then implement ``defineStreamHandler`` as follows:
 
 ```javascript
 // Streams handler
-addon.defineStreamHandler(function(args) {
+builder.defineStreamHandler(function(args) {
     if (dataset[args.id]) {
         return Promise.resolve({ streams: [dataset[args.id]] });
     } else {
@@ -154,7 +154,7 @@ const generateMetaPreview = function(value, key) {
     }
 }
 
-addon.defineCatalogHandler(function(args, cb) {
+builder.defineCatalogHandler(function(args, cb) {
     // filter the dataset object and only take the requested type
     const metas = Object.entries(dataset)
         .filter(([_, value]) => value.type === args.type)
@@ -171,7 +171,7 @@ It's time to run our add-on!
 
 Append to addon.js:
 ```javascript
-module.exports = addon.getInterface()
+module.exports = builder.getInterface()
 ```
 
 And now create a new file, server.js, that only contains:
