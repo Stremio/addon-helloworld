@@ -185,6 +185,24 @@ serveHTTP(addonInterface, { port: 7000 });
 
 Run the add-on with `npm start` and add `http://127.0.0.1:7000/manifest.json` as the Repository URL in Stremio.
 
+This add-on also supports serverless deployment, just create a new file called serverless.js, that contains:
+
+```javascript
+const finalhandler = require("finalhandler");
+
+const { getRouter } = require("stremio-addon-sdk");
+
+const addonInterface = require("./addon");
+
+const router = getRouter(addonInterface);
+
+module.exports = function(req, res) {
+    router(req, res, finalhandler(req, res));
+}
+```
+
+You can check out [this now.json file](./now.json) that would make this add-on work with now.sh serverless deployment.
+
 Now, if you want to deploy your add-on and make it accessible publically, proceed to [our deployment guide](https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/deploying.md).
 
 
