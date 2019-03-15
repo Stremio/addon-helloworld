@@ -188,16 +188,16 @@ Run the add-on with `npm start` and add `http://127.0.0.1:7000/manifest.json` as
 This add-on also supports serverless deployment, just create a new file called serverless.js, that contains:
 
 ```javascript
-const finalhandler = require("finalhandler");
-
 const { getRouter } = require("stremio-addon-sdk");
-
 const addonInterface = require("./addon");
 
 const router = getRouter(addonInterface);
 
 module.exports = function(req, res) {
-    router(req, res, finalhandler(req, res));
+    router(req, res, function() {
+        res.statusCode = 404;
+        res.end();
+    });
 }
 ```
 
