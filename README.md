@@ -203,7 +203,7 @@ module.exports = function(req, res) {
 
 You can check out [this now.json file](./now.json) that would make this add-on work with now.sh serverless deployment.
 
-Now, if you want to deploy your add-on and make it accessible publically, proceed to [our deployment guide](https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/deploying.md).
+Now, if you want to deploy your add-on and make it accessible publically, proceed to [our deployment guide](https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/deploying/deploying.md).
 
 
 Step 7: result
